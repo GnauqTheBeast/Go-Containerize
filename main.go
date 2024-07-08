@@ -16,7 +16,7 @@ var (
 )
 
 func main() {
-	client, err = ent.Open("postgres", "host=postgres port=5432 user=postgres dbname=test password=postgres sslmode=disable")
+	client, err = ent.Open("postgres", "host=postgres port=5433 user=postgres dbname=test password=postgres sslmode=disable")
 	if err != nil {
 		fmt.Printf("failed opening connection to postgres: %v", err)
 		return
@@ -31,6 +31,15 @@ func main() {
 	r := gin.Default()
 	r.GET("/ping", PingHandler)
 	r.Run() // listen and serve on 0.0.0.0:8080
+
+	// r := gin.Default()
+	// r.GET("/ping", func(c *gin.Context) {
+	// 	c.JSON(200, gin.H{
+	// 		"message": "pong",
+	// 	})
+	// })
+	// r.Run()
+
 }
 
 func QueryUser(ctx context.Context, client *ent.Client) (*ent.User, error) {
@@ -43,17 +52,12 @@ func QueryUser(ctx context.Context, client *ent.Client) (*ent.User, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed querying user: %w", err)
 	}
-	fmt.Println("user returned: ", u)
+
 	return u, nil
 }
 
 func PingHandler(c *gin.Context) {
-	u, err := QueryUser(context.Background(), client)
-	if err != nil {
-		return
-	}
-
 	c.JSON(200, gin.H{
-		"users": u,
+		"users": "test nhe ae",
 	})
 }
